@@ -234,4 +234,4 @@ Some values are judgment calls or approximations. Check them before drawing conc
 
 ## Licence and attribution
 
-Add your own licence for the code. Data licences: Open-Meteo data is CC BY 4.0 (free tier is non-commercial); USDA and FAOSTAT data are subject to their publishers' terms of use.
+Data licences: Open-Meteo data is CC BY 4.0 (free tier is non-commercial); USDA and FAOSTAT data are subject to their publishers' terms of use.
