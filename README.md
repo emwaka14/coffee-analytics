@@ -180,7 +180,7 @@ Point your BI tool (Looker Studio, Metabase, Superset...) at the `mv_*` views. T
 | `mv_seasonal_outlook_latest` | region × forecast month | Latest outlook as a directional signal (sign only) |
 | `mv_data_quality` | country | Official-data share, balance check, USDA vs FAO agreement |
 
-Suggested dashboard pages: (1) four-country snapshot, (2) Uganda: trends, this season's status by region, outlook, (3) data quality.
+Potential dashboard pages: (1) four-country snapshot, (2) Uganda: trends, this season's status by region, outlook, (3) data quality.
 
 ---
 
