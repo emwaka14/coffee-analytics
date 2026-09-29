@@ -43,8 +43,98 @@ PHENOLOGY_OVERRIDES = {
 }
 
 # ---- region weights ---------------------------------------------------------
-# Share of the country's coffee production per region, e.g.
-# REGION_WEIGHTS = {"Brazil": {"Sul de Minas": 0.5, "Cerrado Mineiro": 0.3, "Espirito Santo": 0.2}}
-# Countries not listed get equal weights (a fallback, not a recommendation).
-# Better still: weight by coffee-area from a gridded map such as MapSPAM.
-REGION_WEIGHTS: dict[str, dict[str, float]] = {}
+# Initial analytical weights for country-level climate aggregation.
+#
+# These are coffee-production-share approximations for the first version of
+# the regional climate model. They are NOT presented as official regional
+# production statistics.
+#
+# The transformation layer uses these weights to calculate production-weighted
+# country climate indicators. Replace these with sourced regional production
+# shares when reliable regional production data are integrated.
+#
+# The weights within each country sum to 1.0.
+
+REGION_WEIGHTS: dict[str, dict[str, float]] = {
+    "Brazil": {
+        "Sul de Minas": 0.42,
+        "Cerrado Mineiro": 0.23,
+        "Mogiana (SP)": 0.12,
+        "Matas de Minas": 0.08,
+        "Espirito Santo (conilon)": 0.15,
+    },
+
+    "Viet Nam": {
+        "Dak Lak": 0.38,
+        "Gia Lai": 0.20,
+        "Dak Nong": 0.17,
+        "Lam Dong": 0.15,
+        "Kon Tum": 0.10,
+    },
+
+    "Colombia": {
+        "Huila": 0.17,
+        "Antioquia": 0.13,
+        "Tolima": 0.12,
+        "Cauca": 0.11,
+        "Caldas": 0.07,
+        "Santander": 0.40,
+    },
+
+    "Indonesia": {
+        "Aceh (Gayo)": 0.18,
+        "North Sumatra": 0.18,
+        "South Sumatra": 0.20,
+        "Lampung": 0.16,
+        "Java": 0.12,
+        "Sulawesi": 0.16,
+    },
+
+    "Ethiopia": {
+        "Jimma-Limu": 0.25,
+        "Sidama-Yirgacheffe": 0.22,
+        "Guji": 0.14,
+        "Wollega": 0.15,
+        "Kaffa": 0.14,
+        "Harar": 0.10,
+    },
+
+    "Uganda": {
+        "Central": 0.30,
+        "East (Mt Elgon)": 0.30,
+        "South West": 0.22,
+        "West (Rwenzori)": 0.18,
+    },
+
+    "India": {
+        "Karnataka": 0.70,
+        "Kerala": 0.20,
+        "Tamil Nadu": 0.08,
+        "Andhra Pradesh": 0.02,
+    },
+
+    "Honduras": {
+        "Copan": 0.22,
+        "Montecillos": 0.20,
+        "Opalaca": 0.17,
+        "Agalta": 0.12,
+        "Comayagua": 0.15,
+        "El Paraiso": 0.14,
+    },
+
+    "Peru": {
+        "Cajamarca": 0.25,
+        "Junin (Chanchamayo)": 0.30,
+        "San Martin": 0.20,
+        "Cusco": 0.15,
+        "Amazonas": 0.10,
+    },
+
+    "Mexico": {
+        "Chiapas": 0.40,
+        "Veracruz": 0.25,
+        "Puebla": 0.15,
+        "Oaxaca": 0.12,
+        "Guerrero": 0.08,
+    },
+}

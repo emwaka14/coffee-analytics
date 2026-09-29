@@ -17,55 +17,108 @@ RAW_DIR = ROOT_DIR / "data" / "raw"
 PROCESSED_DIR = ROOT_DIR / "data" / "processed"
 
 # ---- countries in scope ----
-# 'faostat_name' / 'usda_country_code' may differ from the common name —
+# 'faostat_name' / 'usda_psd_code' may differ from the common name —
 # keep the mapping here so scripts stay dumb and reusable.
 COUNTRIES = {
-    "Uganda":   {"faostat_name": "Uganda",   "usda_country_code": "UG"},
-    "Ethiopia": {"faostat_name": "Ethiopia", "usda_country_code": "ET"},
-    "Brazil":   {"faostat_name": "Brazil",   "usda_country_code": "BR"},
-    "Viet Nam": {"faostat_name": "Viet Nam", "usda_country_code": "VM"},
+    "Brazil":    {"faostat_name": "Brazil",    "usda_country_code": "BR"},
+    "Viet Nam":  {"faostat_name": "Viet Nam",  "usda_country_code": "VM"},
+    "Colombia":  {"faostat_name": "Colombia",  "usda_country_code": "CO"},
+    "Indonesia": {"faostat_name": "Indonesia", "usda_country_code": "ID"},
+    "Ethiopia":  {"faostat_name": "Ethiopia",  "usda_country_code": "ET"},
+    "Uganda":    {"faostat_name": "Uganda",    "usda_country_code": "UG"},
+    "India":     {"faostat_name": "India",     "usda_country_code": "IN"},
+    "Honduras":  {"faostat_name": "Honduras",  "usda_country_code": "HO"},
+    "Peru":      {"faostat_name": "Peru",      "usda_country_code": "PE"},
+    "Mexico":    {"faostat_name": "Mexico",    "usda_country_code": "MX"},
 }
+
 # NOTE: verify usda_country_code values against the PSD country reference
 # endpoint before first run — confirm rather than assume these are current.
 
 # ---- growing regions (lat/lon anchor points for weather pulls) ----
 REGIONS = {
-    "Uganda": {
-        # South West: point is near Kisoro; fine for the SW arabica/robusta zone.
-        "South West": {"lat": -1.29, "lon": 29.75, "elevation": 1800},
-        # East: the ORIGINAL point (1.13, 34.53) is the Mount Elgon SUMMIT (~4,300 m).
-        # Coffee grows on the Bugisu slopes (Mbale/Sironko/Bulambuli, ~1,300-2,200 m),
-        # so the point was moved to the belt (approximate - verify) and elevation given.
-        "East":       {"lat": 1.20, "lon": 34.35, "elevation": 1700},
-        "Central":    {"lat": 0.62, "lon": 32.48, "elevation": 1150},   # central robusta belt
-    },
-    "Ethiopia": {
-        "Jimma":       {"lat": 7.67, "lon": 36.83, "elevation": 1750},
-        "Yirgacheffe": {"lat": 6.16, "lon": 38.20, "elevation": 1900},
-        "Bensa":       {"lat": 6.72, "lon": 38.60, "elevation": 2000},
-        # Missing: Harar (east) and Limu/Wollega (west) - consider adding.
-    },
     "Brazil": {
-        # ONE region cannot stand in for Brazil. Added the other major zones
-        # (approximate town centroids - verify, and set REGION_WEIGHTS from CONAB
-        # production data in config/agronomy.py).
-        "Sul de Minas":     {"lat": -21.50, "lon": -45.00, "elevation": 1000},
-        "Cerrado Mineiro":  {"lat": -18.94, "lon": -46.99, "elevation": 950},
-        "Mogiana (SP)":     {"lat": -20.54, "lon": -47.40, "elevation": 1000},
-        "Matas de Minas":   {"lat": -20.26, "lon": -42.03, "elevation": 850},
-        "Espirito Santo (conilon)": {"lat": -19.54, "lon": -40.63},   # low-altitude robusta
+        "Sul de Minas":            {"lat": -21.50, "lon": -45.00, "elevation": 1000},
+        "Cerrado Mineiro":         {"lat": -18.94, "lon": -46.99, "elevation": 950},
+        "Mogiana (SP)":            {"lat": -20.54, "lon": -47.40, "elevation": 1000},
+        "Matas de Minas":          {"lat": -20.26, "lon": -42.03, "elevation": 850},
+        "Espirito Santo (conilon)": {"lat": -19.54, "lon": -40.63, "elevation": 250},
     },
+
     "Viet Nam": {
-        # Dak Lak alone is roughly a third of national robusta; add the rest of the
-        # Central Highlands (approximate town centroids - verify).
-        "Dak Lak":  {"lat": 12.67, "lon": 108.04, "elevation": 500},
-        "Gia Lai":  {"lat": 13.98, "lon": 108.00, "elevation": 750},
-        "Dak Nong": {"lat": 12.00, "lon": 107.69, "elevation": 600},
-        "Lam Dong": {"lat": 11.94, "lon": 108.44, "elevation": 1400},   # incl. arabica
+        "Dak Lak":   {"lat": 12.67, "lon": 108.04, "elevation": 500},
+        "Gia Lai":   {"lat": 13.98, "lon": 108.00, "elevation": 750},
+        "Dak Nong":  {"lat": 12.00, "lon": 107.69, "elevation": 600},
+        "Lam Dong":  {"lat": 11.94, "lon": 108.44, "elevation": 1400},
+        "Kon Tum":   {"lat": 14.35, "lon": 108.00, "elevation": 600},
+    },
+
+    "Colombia": {
+        "Huila":       {"lat": 2.55, "lon": -75.50, "elevation": 1600},
+        "Antioquia":   {"lat": 6.25, "lon": -75.55, "elevation": 1700},
+        "Tolima":      {"lat": 4.30, "lon": -75.20, "elevation": 1500},
+        "Cauca":       {"lat": 2.45, "lon": -76.60, "elevation": 1700},
+        "Caldas":      {"lat": 5.05, "lon": -75.50, "elevation": 1600},
+        "Santander":   {"lat": 6.80, "lon": -73.10, "elevation": 1500},
+    },
+
+    "Indonesia": {
+        "Aceh (Gayo)":     {"lat": 4.60, "lon": 96.80,  "elevation": 1300},
+        "North Sumatra":   {"lat": 2.60, "lon": 98.70,  "elevation": 1400},
+        "South Sumatra":   {"lat": -4.00, "lon": 104.00, "elevation": 800},
+        "Lampung":         {"lat": -5.00, "lon": 105.20, "elevation": 700},
+        "Java":            {"lat": -7.00, "lon": 110.00, "elevation": 1100},
+        "Sulawesi":        {"lat": -1.50, "lon": 120.00, "elevation": 1200},
+    },
+
+    "Ethiopia": {
+        "Jimma-Limu":          {"lat": 7.67, "lon": 36.83, "elevation": 1750},
+        "Sidama-Yirgacheffe":  {"lat": 6.16, "lon": 38.20, "elevation": 1900},
+        "Guji":                {"lat": 5.60, "lon": 38.30, "elevation": 2000},
+        "Wollega":             {"lat": 9.10, "lon": 35.80, "elevation": 1900},
+        "Kaffa":               {"lat": 7.25, "lon": 36.25, "elevation": 1700},
+        "Harar":               {"lat": 9.31, "lon": 42.13, "elevation": 1800},
+    },
+
+    "Uganda": {
+        "Central":             {"lat": 0.62, "lon": 32.48, "elevation": 1150},
+        "East (Mt Elgon)":     {"lat": 1.20, "lon": 34.35, "elevation": 1700},
+        "South West":          {"lat": -1.29, "lon": 29.75, "elevation": 1800},
+        "West (Rwenzori)":     {"lat": 0.45, "lon": 30.00, "elevation": 1500},
+    },
+
+    "India": {
+        "Karnataka":           {"lat": 12.30, "lon": 75.80, "elevation": 1100},
+        "Kerala":              {"lat": 11.50, "lon": 76.10, "elevation": 900},
+        "Tamil Nadu":          {"lat": 11.40, "lon": 77.00, "elevation": 1200},
+        "Andhra Pradesh":      {"lat": 14.00, "lon": 78.50, "elevation": 800},
+    },
+
+    "Honduras": {
+        "Copan":               {"lat": 14.85, "lon": -89.15, "elevation": 1300},
+        "Montecillos":         {"lat": 14.10, "lon": -88.10, "elevation": 1400},
+        "Opalaca":             {"lat": 14.80, "lon": -88.40, "elevation": 1400},
+        "Agalta":              {"lat": 15.20, "lon": -86.50, "elevation": 1200},
+        "Comayagua":           {"lat": 14.50, "lon": -87.65, "elevation": 1200},
+        "El Paraiso":          {"lat": 13.85, "lon": -86.55, "elevation": 1300},
+    },
+
+    "Peru": {
+        "Cajamarca":           {"lat": -6.90, "lon": -78.50, "elevation": 1800},
+        "Junin (Chanchamayo)": {"lat": -11.05, "lon": -75.30, "elevation": 1300},
+        "San Martin":          {"lat": -7.00, "lon": -76.50, "elevation": 1000},
+        "Cusco":               {"lat": -13.50, "lon": -71.95, "elevation": 1800},
+        "Amazonas":            {"lat": -6.20, "lon": -78.00, "elevation": 1700},
+    },
+
+    "Mexico": {
+        "Chiapas":             {"lat": 15.10, "lon": -92.60, "elevation": 1200},
+        "Veracruz":            {"lat": 19.50, "lon": -96.90, "elevation": 1100},
+        "Puebla":              {"lat": 19.00, "lon": -97.80, "elevation": 1300},
+        "Oaxaca":              {"lat": 17.10, "lon": -96.70, "elevation": 1300},
+        "Guerrero":            {"lat": 17.70, "lon": -99.90, "elevation": 1100},
     },
 }
-# Optional "elevation" (metres) makes Open-Meteo downscale temperature to the
-# farms' altitude instead of the grid-cell average. Values are rough - refine them.
 # NOTE: coordinates above are approximate district/zone centroids, not
 # precise farm locations. Good enough for regional climate signal, not
 # for anything requiring survey-grade geolocation.
@@ -101,19 +154,15 @@ PSD_ATTRIBUTE_MAP = {
 }
 
 # ---- date range ----
-# 1993, not 2000: more years = more statistical power for the climate analysis
-# (25 yrs x 4 countries is thin), and FAOSTAT lists Ethiopia as 'Ethiopia PDR'
-# before 1993, so 1993 is the earliest clean start for the name mapping.
-START_YEAR = 1993
-# NOTE: the current crop year (2026) is a USDA *forecast* and the weather windows for it
-# are incomplete; the pipeline flags it (usda_is_forecast). Set END_YEAR = 2025 for actuals only.
+START_YEAR = 2000
 END_YEAR = 2026
 START_DATE = f"{START_YEAR}-01-01"
 
-# Open-Meteo's archive lags real time by several days (ERA5), so stop a week short.
-# (Partial months at the end are flagged incomplete downstream either way.)
-# min() also stops END_YEAR in the future from producing a future end date.
-END_DATE = min(date(END_YEAR, 12, 31), date.today() - timedelta(days=7)).strftime("%Y-%m-%d")
+# End date to be at most a day ago
+if END_YEAR == date.today().year:
+    END_DATE = (date.today() - timedelta(days=1)).strftime("%Y-%m-%d")
+else:
+    END_DATE = f"{END_YEAR}-12-31"
 
 # ---- API keys (from .env) ----
 USDA_API_KEY = os.getenv("USDA_API_KEY")
@@ -131,5 +180,3 @@ DB_PORT = os.getenv("DB_PORT", "5432")
 DB_NAME = os.getenv("DB_NAME", "coffee_analytics")
 DB_USER = os.getenv("DB_USER", "postgres")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "")
-# Aiven needs "require"; a local Postgres without SSL needs "prefer" or "disable".
-DB_SSLMODE = os.getenv("DB_SSLMODE", "require")
